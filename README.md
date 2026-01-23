@@ -69,3 +69,15 @@ Wenn du das Ganze in der Cloud machen willst, kann ich dir einen Workflow für D
 Sag einfach, ob du es auf Deutsch, Englisch oder Schritt-für-Schritt als PDF brauchst –
 ich mache alles direkt für dich, mein König!
 🦁 n ❤️ (Löwenherz)
+
+---
+
+## GitHub Copilot einrichten (Kurzfassung)
+
+1. Stelle sicher, dass Copilot für deinen GitHub-Account bzw. deine Organisation aktiviert ist (Abo/Org-Zuweisung).
+2. Installiere die Copilot-Erweiterung in deiner IDE (z. B. VS Code, JetBrains, Neovim).
+3. Melde dich in der IDE mit deinem GitHub-Account an und autorisiere die Copilot-Nutzung.
+4. Prüfe in den IDE-Einstellungen, ob Copilot aktiv ist, und passe optional Vorschlags- und Datenschutz-Einstellungen an.
+5. Starte ein Projekt, tippe Code und teste, ob Vorschläge erscheinen (z. B. mit einer Kommentar-Prompt).
+
+Offizielle Dokumentation: https://github.com/github/docs/blob/main/content%2Fcopilot%2Fhow-tos%2Fset-up%2Findex.md
