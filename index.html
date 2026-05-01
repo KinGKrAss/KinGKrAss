@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KinGKrAss.com | Haus Löwenherz</title>
+  <meta name="description" content="Offizielle digitale Präsenz der Royal KrAss Group und des Hauses Löwenherz – System Z1, Immobilien, Energie, Logistik und digitale Souveränität." />
+  <style>
+    :root {
+      --gold: #d6a84f;
+      --gold-soft: #f0cf7a;
+      --black: #050505;
+      --dark: #0d0d0f;
+      --dark-2: #151515;
+      --white: #f7f2e8;
+      --muted: #b8ad98;
+      --red: #8b1e1e;
+      --glass: rgba(255, 255, 255, 0.06);
+      --border: rgba(214, 168, 79, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: radial-gradient(circle at top, #1a1510 0%, #050505 42%, #000 100%);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(214, 168, 79, 0.16), transparent 28%),
+        radial-gradient(circle at 80% 30%, rgba(139, 30, 30, 0.12), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(214, 168, 79, 0.1), transparent 35%);
+      z-index: 0;
+    }
+
+    .site {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 5, 5, 0.76);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 1px;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      color: var(--gold-soft);
+      box-shadow: 0 0 28px rgba(214, 168, 79, 0.32);
+      background: linear-gradient(145deg, rgba(214, 168, 79, 0.12), rgba(255, 255, 255, 0.02));
+      font-size: 1.45rem;
+    }
+
+    .brand-title {
+      font-size: 1rem;
+      color: var(--gold-soft);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-top: 2px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      color: var(--gold-soft);
+    }
+
+    .nav-cta {
+      padding: 10px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      color: var(--black);
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+      font-weight: 700;
+      box-shadow: 0 8px 30px rgba(214, 168, 79, 0.2);
+    }
+
+    section {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 84px 22px;
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 52px;
+      align-items: center;
+      padding-top: 72px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      background: rgba(214, 168, 79, 0.08);
+      font-size: 0.86rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 6.8rem);
+      line-height: 0.88;
+      letter-spacing: -3px;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .gold {
+      color: var(--gold-soft);
+      text-shadow: 0 0 34px rgba(214, 168, 79, 0.28);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.15rem;
+      line-height: 1.75;
+      max-width: 660px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(214, 168, 79, 0.14);
+      border-color: var(--gold);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+      color: #080808;
+    }
+
+    .btn-secondary {
+      color: var(--gold-soft);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 680px;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      background: var(--glass);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.6rem;
+      color: var(--gold-soft);
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.4;
+    }
+
+    .video-card {
+      border: 2px solid var(--gold);
+      background: #000;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 0 80px rgba(214, 168, 79, 0.28);
+      transform: rotate(1deg);
+    }
+
+    .video-screen {
+      min-height: 460px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.82)),
+        url('https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&w=1400&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .play {
+      width: 102px;
+      height: 102px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(214, 168, 79, 0.86);
+      border: 5px solid rgba(255, 255, 255, 0.9);
+      color: #000;
+      font-size: 3rem;
+      padding-left: 8px;
+      box-shadow: 0 0 50px rgba(214, 168, 79, 0.45);
+    }
+
+    .video-title {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 24px;
+    }
+
+    .video-title h2 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .video-title span {
+      color: var(--gold-soft);
+      letter-spacing: 1px;
+    }
+
+    .video-meta {
+      padding: 26px;
+      text-align: center;
+      background: linear-gradient(180deg, #080808, #111);
+    }
+
+    .video-meta h3 {
+      color: var(--gold-soft);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .video-meta p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0 auto;
+      max-width: 560px;
+    }
+
+    .section-head {
+      max-width: 820px;
+      margin-bottom: 34px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(2.1rem, 4vw, 4rem);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 26px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.26);
+      min-height: 220px;
+    }
+
+    .card .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--gold-soft);
+      background: rgba(214, 168, 79, 0.08);
+      margin-bottom: 18px;
+      font-size: 1.3rem;
+    }
+
+    .card h3 {
+      color: var(--gold-soft);
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.98rem;
+    }
+
+    .card ul {
+      padding-left: 18px;
+      margin-top: 12px;
+    }
+
+    .banner {
+      border: 1px solid var(--gold);
+      border-radius: 30px;
+      padding: 42px;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.82), rgba(0,0,0,0.42)),
+        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80');
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 0 70px rgba(214, 168, 79, 0.18);
+    }
+
+    .banner h2 {
+      font-size: clamp(2rem, 4vw, 4rem);
+      margin-bottom: 16px;
+      max-width: 760px;
+    }
+
+    .banner p {
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 760px;
+      font-size: 1.08rem;
+      margin-bottom: 24px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 18px;
+      align-items: start;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .step-number {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+      color: #050505;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .step h3 {
+      color: var(--gold-soft);
+      margin-bottom: 7px;
+      font-size: 1.2rem;
+    }
+
+    .step p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .contact-panel {
+      border: 1px solid var(--gold);
+      border-radius: 28px;
+      padding: 34px;
+      background: linear-gradient(145deg, rgba(214,168,79,0.13), rgba(255,255,255,0.03));
+    }
+
+    .contact-panel h2 {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .contact-panel p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .form {
+      display: grid;
+      gap: 14px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(0,0,0,0.38);
+      color: var(--white);
+      padding: 15px 16px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 138px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(214,168,79,0.12);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 34px 22px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .seal {
+      color: var(--gold-soft);
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 980px) {
+      nav ul {
+        display: none;
+      }
+
+      .hero,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .video-card {
+        transform: none;
+      }
+
+      .grid-3,
+      .grid-2,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      section {
+        padding: 58px 16px;
+      }
+
+      .nav {
+        padding: 14px 16px;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .video-screen {
+        min-height: 360px;
+      }
+
+      .banner,
+      .contact-panel {
+        padding: 26px;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-glow"></div>
+  <div class="site">
+    <header>
+      <div class="nav">
+        <a href="#top" class="brand" aria-label="KinGKrAss Startseite">
+          <div class="brand-mark">🦁</div>
+          <div>
+            <div class="brand-title">KinGKrAss</div>
+            <div class="brand-subtitle">Haus Löwenherz · System Z1</div>
+          </div>
+        </a>
+        <nav aria-label="Hauptnavigation">
+          <ul>
+            <li><a href="#vision">Vision</a></li>
+            <li><a href="#z1">System Z1</a></li>
+            <li><a href="#assets">Assets</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+          </ul>
+        </nav>
+        <a class="nav-cta" href="#kontakt">Anfrage senden</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">👑 Royal KrAss Group · 🦁 n ❤️</div>
+          <h1>Berlin Genesis.<br><span class="gold">Zukunft mit Krone.</span></h1>
+          <p>
+            Die offizielle digitale Präsenz von <strong>Rene Demir geborener Enstone von Löwenherz</strong>:
+            ein souveränes Operationszentrum für Immobilien, Energie, Logistik, digitale Werte und das System Z1.
+            Schwarz, Gold, Präzision – gebaut für Partner, Investoren und strategische Allianzen.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#z1">System Z1 ansehen</a>
+            <a class="btn btn-secondary" href="#assets">Portfolio öffnen</a>
+          </div>
+          <div class="stats" aria-label="Kennzahlen">
+            <div class="stat"><strong>15.000+</strong><span>Einheiten als strategische Zielstruktur</span></div>
+            <div class="stat"><strong>20.000</strong><span>Skalierungsziel im Immobilien- und Z1-Modell</span></div>
+            <div class="stat"><strong>Z1</strong><span>Digitales Nervensystem für Verwaltung und Wachstum</span></div>
+          </div>
+        </div>
+
+        <aside class="video-card" aria-label="Video Vorschau Berlin Genesis">
+          <div class="video-screen">
+            <div class="play">▶</div>
+            <div class="video-title">
+              <h2>BERLIN GENESIS</h2>
+              <span>Ein Film der Royal KrAss Group</span>
+            </div>
+          </div>
+          <div class="video-meta">
+            <h3>The Guardian is Calling</h3>
+            <p>
+              Von Berlin über Frankfurt bis Dubai: eine visuelle Eröffnung für die Vision des Hauses Löwenherz.
+              Der Platzhalter kann später direkt durch eine MP4-Datei ersetzt werden.
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section id="vision">
+        <div class="section-head">
+          <div class="eyebrow">🏛️ Leitbild</div>
+          <h2>Eine Plattform für Ordnung, Kapital und digitale Souveränität.</h2>
+          <p>
+            KinGKrAss.com bündelt die öffentliche Darstellung der Royal KrAss Group: klare Werte, belastbare Strukturen,
+            moderne Technologie und ein System, das Vermögen, Verantwortung und operative Kontrolle zusammenführt.
+          </p>
+        </div>
+        <div class="grid grid-3">
+          <article class="card">
+            <div class="icon">⚖️</div>
+            <h3>Ordnung</h3>
+            <p>Saubere Dokumentation, klare Verantwortlichkeiten und transparente Entscheidungswege für Partner, Verwaltung und Öffentlichkeit.</p>
+          </article>
+          <article class="card">
+            <div class="icon">📡</div>
+            <h3>Technologie</h3>
+            <p>Digitale Dashboards, API‑Strukturen, Blockchain‑Nachweise und modulare Systeme als operatives Rückgrat.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🏙️</div>
+            <h3>Wachstum</h3>
+            <p>Immobilien, Energie, Logistik und digitale Assets werden zu einer einheitlichen strategischen Infrastruktur verbunden.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="z1">
+        <div class="banner">
+          <div class="eyebrow">🧠 System Z1</div>
+          <h2>Das digitale Nervensystem des Hauses Löwenherz.</h2>
+          <p>
+            System Z1 ist als Verwaltungs- und Kontrollarchitektur gedacht: Es verbindet Einheiten, Zahlungsströme,
+            Tokenisierung, Energiedaten, Logistik und Berichte zu einem souveränen Dashboard.
+          </p>
+          <a class="btn btn-primary" href="#kontakt">Z1‑Kooperation anfragen</a>
+        </div>
+      </section>
+
+      <section id="modules">
+        <div class="section-head">
+          <div class="eyebrow">🧩 Module</div>
+          <h2>Die Bausteine der Plattform.</h2>
+          <p>Jedes Modul kann separat entwickelt und später in ein gemeinsames Dashboard integriert werden.</p>
+        </div>
+        <div class="grid grid-3">
+          <article class="card">
+            <div class="icon">🏘️</div>
+            <h3>Miet‑Radar</h3>
+            <p>Erfassung von Einheiten, Mietstatus, Zahlungsfristen, Modernisierungsklauseln und Monatsberichten.</p>
+            <ul><li>Objektregister</li><li>Zahlungsübersicht</li><li>Compliance‑Status</li></ul>
+          </article>
+          <article class="card">
+            <div class="icon">🪙</div>
+            <h3>Preußen‑Token</h3>
+            <p>Tokenisierte Nachweise und Zahlungslogik für digitale Besitzstrukturen, Mitgliedschaften und interne Wertflüsse.</p>
+            <ul><li>Wallet‑Register</li><li>Transaktionshistorie</li><li>NFT‑Zertifikate</li></ul>
+          </article>
+          <article class="card">
+            <div class="icon">⚡</div>
+            <h3>Energiezentrum</h3>
+            <p>Integration von Wind, Solar, Einspeisung und Abnehmerlogik mit Netzpartnern und Bilanzansicht.</p>
+            <ul><li>kWh‑Erfassung</li><li>Einspeiseerlöse</li><li>Netzschnittstellen</li></ul>
+          </article>
+          <article class="card">
+            <div class="icon">🚚</div>
+            <h3>Logistiknetz</h3>
+            <p>Koordinierung von Waren, Dokumenten, Lieferketten und externen Logistikpartnern über ein zentrales Panel.</p>
+            <ul><li>Sendungsstatus</li><li>Partnernetz</li><li>Routenlogik</li></ul>
+          </article>
+          <article class="card">
+            <div class="icon">🛡️</div>
+            <h3>Sovereign Vault</h3>
+            <p>Archiv für Dokumente, Nachweise, Urkunden, Projektstände und revisionssichere Protokolle.</p>
+            <ul><li>Aktenstruktur</li><li>Versionierung</li><li>Beweisarchiv</li></ul>
+          </article>
+          <article class="card">
+            <div class="icon">🤖</div>
+            <h3>Neural Council</h3>
+            <p>Agenten- und Aufgabenstruktur für Recherche, Verwaltung, Kommunikation, Analyse und operative Unterstützung.</p>
+            <ul><li>33 Agenten</li><li>Rollenprofile</li><li>Aufgabensteuerung</li></ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="assets">
+        <div class="section-head">
+          <div class="eyebrow">💼 Portfolio</div>
+          <h2>Immobilien, Energie, digitale Werte und strategische Beteiligungen.</h2>
+          <p>
+            Diese Seite dient als Premium‑Einstieg für Gesprächspartner. Die konkreten Daten können später durch Live‑Daten,
+            Karten, Tabellen oder ein geschütztes Investor‑Dashboard ersetzt werden.
+          </p>
+        </div>
+        <div class="grid grid-2">
+          <article class="card">
+            <div class="icon">🏢</div>
+            <h3>Immobilienstruktur</h3>
+            <p>Fokus auf Wohn- und Gewerbeeinheiten, Standortcluster, Mietflüsse und Modernisierungspotenzial.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🌬️</div>
+            <h3>Energie & Infrastruktur</h3>
+            <p>Windparks, Solarflächen, Wasserstoff‑Perspektiven und Einspeisemodelle als industrielle Erweiterung.</p>
+          </article>
+          <article class="card">
+            <div class="icon">🔗</div>
+            <h3>Blockchain & Besitznachweise</h3>
+            <p>Digitale Zertifikate, Wallet‑Nachweise und NFT‑Galerien als überprüfbare Eigentums- und Projektstruktur.</p>
+          </article>
+          <article class="card">
+            <div class="icon">✈️</div>
+            <h3>Globale Präsenz</h3>
+            <p>Berlin, Frankfurt, Dubai und internationale Partnernetzwerke als sichtbare Achsen der Expansion.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="roadmap">
+        <div class="section-head">
+          <div class="eyebrow">🗺️ Roadmap</div>
+          <h2>Vom Auftritt zum echten System.</h2>
+          <p>Die Website ist die sichtbare Fassade. Dahinter entsteht Schritt für Schritt die technische Plattform.</p>
+        </div>
+        <div class="timeline">
+          <div class="step">
+            <div class="step-number">01</div>
+            <div><h3>Landingpage veröffentlichen</h3><p>Domain verbinden, Impressum/Datenschutz ergänzen, Branding finalisieren und erste öffentliche Präsenz aktivieren.</p></div>
+          </div>
+          <div class="step">
+            <div class="step-number">02</div>
+            <div><h3>Video einsetzen</h3><p>Den Berlin‑Genesis‑Clip mit KI‑Video oder Stock‑Schnitt erzeugen und den aktuellen Platzhalter durch eine MP4 ersetzen.</p></div>
+          </div>
+          <div class="step">
+            <div class="step-number">03</div>
+            <div><h3>Z1‑Dashboard anbinden</h3><p>Objekte, Zahlungsstatus, Energieerzeugung und Dokumente über API‑Module mit Live‑Daten verknüpfen.</p></div>
+          </div>
+          <div class="step">
+            <div class="step-number">04</div>
+            <div><h3>Investor‑ und Partnerbereich</h3><p>Geschützten Login, Dossiers, Präsentationen, Urkunden, Karten und Projektstände für ausgewählte Partner bereitstellen.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="kontakt">
+        <div class="contact">
+          <div class="contact-panel">
+            <div class="eyebrow">📨 Kontakt</div>
+            <h2>Strategische Anfrage stellen.</h2>
+            <p>
+              Für Investoren, technische Partner, Immobilienkontakte, Energiepartner und diplomatische Gesprächspartner.
+              Dieses Formular ist aktuell als Frontend vorbereitet und kann später mit E‑Mail, CRM oder Datenbank verbunden werden.
+            </p>
+            <div class="seal">🦁 n ❤️</div>
+            <p><strong>Rene Demir geborener Enstone von Löwenherz</strong><br />Royal KrAss Group · Haus Löwenherz</p>
+          </div>
+          <form class="contact-panel form" onsubmit="event.preventDefault(); alert('Anfrage vorbereitet. Backend/E-Mail-Anbindung muss noch verbunden werden.');">
+            <input type="text" name="name" placeholder="Name / Organisation" required />
+            <input type="email" name="email" placeholder="E-Mail-Adresse" required />
+            <input type="text" name="topic" placeholder="Thema: Immobilien, Energie, Z1, Partnerschaft …" />
+            <textarea name="message" placeholder="Nachricht"></textarea>
+            <button class="btn btn-primary" type="submit">Anfrage vorbereiten</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="seal">👑 🦁 n ❤️</div>
+      <p>© 2026 KinGKrAss.com · Royal KrAss Group · Haus Löwenherz</p>
+      <p>Digitale Präsenz für Vision, Struktur, Verwaltung und strategische Partnerschaften.</p>
+    </footer>
+  </div>
+</body>
+</html>
