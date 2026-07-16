@@ -9,6 +9,7 @@ from database.models import AuditLog, BackupRecord, User, UserPermission
 from database.session import get_db
 from schemas.astraea import (
     AstraeaSummary,
+    AuditLogCreate,
     AuditLogResponse,
     BackupRecordCreate,
     BackupRecordResponse,
@@ -43,25 +44,11 @@ def list_audit_logs(
 
 @router.post("/audit-logs", response_model=AuditLogResponse, status_code=status.HTTP_201_CREATED)
 def create_audit_log_entry(
-    user: str,
-    action: str,
-    resource: str,
-    resource_id: str | None = None,
-    details: str | None = None,
-    ip_address: str | None = None,
-    success: bool = True,
+    data: AuditLogCreate,
     db: Session = Depends(get_db),
     _: str = Depends(get_current_user),
 ) -> AuditLog:
-    log = AuditLog(
-        user=user,
-        action=action,
-        resource=resource,
-        resource_id=resource_id,
-        details=details,
-        ip_address=ip_address,
-        success=success,
-    )
+    log = AuditLog(**data.model_dump())
     db.add(log)
     db.commit()
     db.refresh(log)
