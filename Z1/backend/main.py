@@ -1,11 +1,24 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
 from ai.agents import AgentCoordinator
 from ai.workflows import run_workflow
 from api.routes import auth, dashboard, health, modules
 from auth.security import verify_token
+from database.base import Base
+from database.bootstrap import ensure_default_admin
+from database.session import SessionLocal, engine
 
-app = FastAPI(title="Z1 Löwenherz OS API", version="0.1.0")
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    with SessionLocal() as session:
+        ensure_default_admin(session)
+    yield
+
+
+app = FastAPI(title="Z1 Löwenherz OS API", version="0.1.0", lifespan=lifespan)
 coordinator = AgentCoordinator()
 
 app.include_router(health.router)
