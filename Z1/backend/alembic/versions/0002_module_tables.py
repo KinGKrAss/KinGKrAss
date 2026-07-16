@@ -18,7 +18,7 @@ depends_on = None
 def upgrade() -> None:
     # users – new columns
     op.add_column("users", sa.Column("email", sa.String(length=128), nullable=True))
-    op.add_column("users", sa.Column("is_active", sa.Boolean(), nullable=False, server_default="1"))
+    op.add_column("users", sa.Column("is_active", sa.Boolean(), nullable=False, server_default=sa.true()))
 
     # Electra
     op.create_table(
@@ -161,7 +161,7 @@ def upgrade() -> None:
         sa.Column("document_type", sa.String(length=64), nullable=False),
         sa.Column("content", sa.Text(), nullable=False),
         sa.Column("tags", sa.String(length=256), nullable=True),
-        sa.Column("is_archived", sa.Boolean(), nullable=False, server_default="0"),
+        sa.Column("is_archived", sa.Boolean(), nullable=False, server_default=sa.false()),
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
     )
@@ -194,7 +194,7 @@ def upgrade() -> None:
         sa.Column("resource_id", sa.String(length=64), nullable=True),
         sa.Column("details", sa.Text(), nullable=True),
         sa.Column("ip_address", sa.String(length=45), nullable=True),
-        sa.Column("success", sa.Boolean(), nullable=False, server_default="1"),
+        sa.Column("success", sa.Boolean(), nullable=False, server_default=sa.true()),
     )
     op.create_index("ix_audit_logs_id", "audit_logs", ["id"])
     op.create_index("ix_audit_logs_timestamp", "audit_logs", ["timestamp"])
@@ -205,7 +205,7 @@ def upgrade() -> None:
         sa.Column("user_id", sa.Integer(), sa.ForeignKey("users.id"), nullable=False),
         sa.Column("resource", sa.String(length=64), nullable=False),
         sa.Column("action", sa.String(length=32), nullable=False),
-        sa.Column("granted", sa.Boolean(), nullable=False, server_default="1"),
+        sa.Column("granted", sa.Boolean(), nullable=False, server_default=sa.true()),
     )
     op.create_index("ix_user_permissions_id", "user_permissions", ["id"])
 
