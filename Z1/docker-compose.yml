@@ -1,10 +1,11 @@
 services:
   postgres:
     image: postgres:16-alpine
+    # Development defaults only. Override in .env for production.
     environment:
-      POSTGRES_DB: z1
-      POSTGRES_USER: z1
-      POSTGRES_PASSWORD: z1
+      POSTGRES_DB: ${POSTGRES_DB:-z1}
+      POSTGRES_USER: ${POSTGRES_USER:-z1}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-dev-only}
     ports:
       - "5432:5432"
     volumes:
