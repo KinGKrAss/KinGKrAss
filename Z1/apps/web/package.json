@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "15.4.6",
+    "next": "15.5.20",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "@mui/material": "7.2.0",
@@ -23,6 +23,6 @@
     "@types/react": "19.1.9",
     "@types/node": "24.2.1",
     "eslint": "9.32.0",
-    "eslint-config-next": "15.4.6"
+    "eslint-config-next": "15.5.20"
   }
 }
