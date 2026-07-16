@@ -3,18 +3,21 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class AuditLogResponse(BaseModel):
+class AuditLogCreate(BaseModel):
+    user: str = Field(..., min_length=1, max_length=64)
+    action: str = Field(..., min_length=1, max_length=32)
+    resource: str = Field(..., min_length=1, max_length=64)
+    resource_id: str | None = Field(default=None, max_length=64)
+    details: str | None = None
+    ip_address: str | None = Field(default=None, max_length=45)
+    success: bool = True
+
+
+class AuditLogResponse(AuditLogCreate):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
     timestamp: datetime
-    user: str
-    action: str
-    resource: str
-    resource_id: str | None
-    details: str | None
-    ip_address: str | None
-    success: bool
 
 
 # ---------------------------------------------------------------------------
