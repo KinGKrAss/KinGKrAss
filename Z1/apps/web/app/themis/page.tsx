@@ -3,6 +3,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -16,6 +17,7 @@ import {
   Grid,
   IconButton,
   MenuItem,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -36,19 +38,22 @@ const STATUS_COLOR: Record<string, "success" | "warning" | "error" | "default"> 
   terminated: "warning",
 };
 
+const EMPTY_FORM = {
+  title: "",
+  contract_type: "service",
+  counterparty: "",
+  start_date: new Date().toISOString().slice(0, 10),
+  end_date: "",
+  value: "",
+};
+
 export default function ThemisPage() {
   const router = useRouter();
   const [contracts, setContracts] = useState<LegalContract[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({
-    title: "",
-    contract_type: "service",
-    counterparty: "",
-    start_date: new Date().toISOString().slice(0, 10),
-    end_date: "",
-    value: "",
-  });
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [snack, setSnack] = useState<{ msg: string; severity: "success" | "error" } | null>(null);
 
   useEffect(() => {
     if (!isAuthenticated()) { router.push("/login"); return; }
@@ -58,22 +63,32 @@ export default function ThemisPage() {
   }, [router]);
 
   async function handleCreate() {
-    const c = await themis.createContract({
-      title: form.title,
-      contract_type: form.contract_type,
-      counterparty: form.counterparty,
-      start_date: form.start_date,
-      end_date: form.end_date || undefined,
-      value: form.value ? parseFloat(form.value) : undefined,
-    });
-    setContracts((prev) => [...prev, c]);
-    setOpen(false);
-    setForm({ title: "", contract_type: "service", counterparty: "", start_date: new Date().toISOString().slice(0, 10), end_date: "", value: "" });
+    try {
+      const c = await themis.createContract({
+        title: form.title,
+        contract_type: form.contract_type,
+        counterparty: form.counterparty,
+        start_date: form.start_date,
+        end_date: form.end_date || undefined,
+        value: form.value ? parseFloat(form.value) : undefined,
+      });
+      setContracts((prev) => [...prev, c]);
+      setOpen(false);
+      setForm(EMPTY_FORM);
+      setSnack({ msg: "Vertrag erstellt.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Erstellen.", severity: "error" });
+    }
   }
 
   async function handleDelete(id: number) {
-    await themis.deleteContract(id);
-    setContracts((prev) => prev.filter((c) => c.id !== id));
+    try {
+      await themis.deleteContract(id);
+      setContracts((prev) => prev.filter((c) => c.id !== id));
+      setSnack({ msg: "Vertrag gelöscht.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Löschen.", severity: "error" });
+    }
   }
 
   const active = contracts.filter((c) => c.status === "active").length;
@@ -166,6 +181,13 @@ export default function ThemisPage() {
           <Button variant="contained" onClick={handleCreate}>Erstellen</Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={Boolean(snack)} autoHideDuration={4000} onClose={() => setSnack(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+        <Alert severity={snack?.severity} onClose={() => setSnack(null)} sx={{ width: "100%" }}>
+          {snack?.msg}
+        </Alert>
+      </Snackbar>
     </AppShell>
   );
 }

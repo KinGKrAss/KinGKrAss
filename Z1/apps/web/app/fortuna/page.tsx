@@ -3,6 +3,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -16,6 +17,7 @@ import {
   Grid,
   IconButton,
   MenuItem,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -40,6 +42,7 @@ export default function FortunaPage() {
     transaction_type: "income",
     transaction_date: new Date().toISOString().slice(0, 10),
   });
+  const [snack, setSnack] = useState<{ msg: string; severity: "success" | "error" } | null>(null);
 
   const income = transactions.filter((t) => t.transaction_type === "income").reduce((s, t) => s + t.amount, 0);
   const expense = transactions.filter((t) => t.transaction_type === "expense").reduce((s, t) => s + t.amount, 0);
@@ -52,19 +55,29 @@ export default function FortunaPage() {
   }, [router]);
 
   async function handleCreate() {
-    const t = await fortuna.createTransaction({
-      description: form.description,
-      amount: parseFloat(form.amount),
-      transaction_type: form.transaction_type as "income" | "expense",
-      transaction_date: form.transaction_date,
-    });
-    setTransactions((prev) => [...prev, t]);
-    setOpen(false);
+    try {
+      const t = await fortuna.createTransaction({
+        description: form.description,
+        amount: parseFloat(form.amount),
+        transaction_type: form.transaction_type as "income" | "expense",
+        transaction_date: form.transaction_date,
+      });
+      setTransactions((prev) => [...prev, t]);
+      setOpen(false);
+      setSnack({ msg: "Buchung erstellt.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Erstellen.", severity: "error" });
+    }
   }
 
   async function handleDelete(id: number) {
-    await fortuna.deleteTransaction(id);
-    setTransactions((prev) => prev.filter((t) => t.id !== id));
+    try {
+      await fortuna.deleteTransaction(id);
+      setTransactions((prev) => prev.filter((t) => t.id !== id));
+      setSnack({ msg: "Buchung gelöscht.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Löschen.", severity: "error" });
+    }
   }
 
   return (
@@ -157,6 +170,13 @@ export default function FortunaPage() {
           <Button variant="contained" onClick={handleCreate}>Erstellen</Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={Boolean(snack)} autoHideDuration={4000} onClose={() => setSnack(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+        <Alert severity={snack?.severity} onClose={() => setSnack(null)} sx={{ width: "100%" }}>
+          {snack?.msg}
+        </Alert>
+      </Snackbar>
     </AppShell>
   );
 }

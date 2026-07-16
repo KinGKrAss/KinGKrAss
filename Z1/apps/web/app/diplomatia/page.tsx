@@ -3,6 +3,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -13,6 +14,7 @@ import {
   DialogTitle,
   IconButton,
   MenuItem,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -26,18 +28,15 @@ import { useRouter } from "next/navigation";
 import AppShell from "@/components/AppShell";
 import { diplomatia, isAuthenticated, type DiplomaticDocument } from "@/lib/api";
 
+const EMPTY_FORM = { title: "", document_type: "memo", language: "de", content: "", tags: "" };
+
 export default function DiplomatiaPage() {
   const router = useRouter();
   const [docs, setDocs] = useState<DiplomaticDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({
-    title: "",
-    document_type: "memo",
-    language: "de",
-    content: "",
-    tags: "",
-  });
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [snack, setSnack] = useState<{ msg: string; severity: "success" | "error" } | null>(null);
 
   useEffect(() => {
     if (!isAuthenticated()) { router.push("/login"); return; }
@@ -47,26 +46,41 @@ export default function DiplomatiaPage() {
   }, [router]);
 
   async function handleCreate() {
-    const doc = await diplomatia.createDocument({
-      title: form.title,
-      document_type: form.document_type,
-      language: form.language,
-      content: form.content,
-      tags: form.tags || undefined,
-    });
-    setDocs((prev) => [...prev, doc]);
-    setOpen(false);
-    setForm({ title: "", document_type: "memo", language: "de", content: "", tags: "" });
+    try {
+      const doc = await diplomatia.createDocument({
+        title: form.title,
+        document_type: form.document_type,
+        language: form.language,
+        content: form.content,
+        tags: form.tags || undefined,
+      });
+      setDocs((prev) => [...prev, doc]);
+      setOpen(false);
+      setForm(EMPTY_FORM);
+      setSnack({ msg: "Dokument erstellt.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Erstellen.", severity: "error" });
+    }
   }
 
   async function handleDelete(id: number) {
-    await diplomatia.deleteDocument(id);
-    setDocs((prev) => prev.filter((d) => d.id !== id));
+    try {
+      await diplomatia.deleteDocument(id);
+      setDocs((prev) => prev.filter((d) => d.id !== id));
+      setSnack({ msg: "Dokument gelöscht.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Löschen.", severity: "error" });
+    }
   }
 
   async function handleArchive(id: number) {
-    const updated = await diplomatia.archiveDocument(id);
-    setDocs((prev) => prev.map((d) => (d.id === id ? updated : d)));
+    try {
+      const updated = await diplomatia.archiveDocument(id);
+      setDocs((prev) => prev.map((d) => (d.id === id ? updated : d)));
+      setSnack({ msg: "Dokument archiviert.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Archivieren.", severity: "error" });
+    }
   }
 
   return (
@@ -143,6 +157,13 @@ export default function DiplomatiaPage() {
           <Button variant="contained" onClick={handleCreate}>Erstellen</Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={Boolean(snack)} autoHideDuration={4000} onClose={() => setSnack(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+        <Alert severity={snack?.severity} onClose={() => setSnack(null)} sx={{ width: "100%" }}>
+          {snack?.msg}
+        </Alert>
+      </Snackbar>
     </AppShell>
   );
 }
