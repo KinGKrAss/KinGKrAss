@@ -1,7 +1,10 @@
 "use client";
 
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -14,6 +17,8 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  MenuItem,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -22,7 +27,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AppShell from "@/components/AppShell";
@@ -34,13 +38,17 @@ const STATUS_COLOR: Record<string, "success" | "warning" | "error"> = {
   offline: "error",
 };
 
+const EMPTY_FORM = { name: "", location: "", capacity_kw: "", status: "active" };
+
 export default function ElectraPage() {
   const router = useRouter();
   const [summary, setSummary] = useState<ElectraSummary | null>(null);
   const [farms, setFarms] = useState<WindFarm[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", location: "", capacity_kw: "" });
+  const [editTarget, setEditTarget] = useState<WindFarm | null>(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [snack, setSnack] = useState<{ msg: string; severity: "success" | "error" } | null>(null);
 
   useEffect(() => {
     if (!isAuthenticated()) { router.push("/login"); return; }
@@ -49,24 +57,53 @@ export default function ElectraPage() {
       .finally(() => setLoading(false));
   }, [router]);
 
-  async function handleCreate() {
-    const farm = await electra.createFarm({
-      name: form.name,
-      location: form.location,
-      capacity_kw: parseFloat(form.capacity_kw),
-    });
-    setFarms((prev) => [...prev, farm]);
-    const s = await electra.summary();
-    setSummary(s);
-    setOpen(false);
-    setForm({ name: "", location: "", capacity_kw: "" });
+  function openCreate() {
+    setEditTarget(null);
+    setForm(EMPTY_FORM);
+    setOpen(true);
+  }
+
+  function openEdit(farm: WindFarm) {
+    setEditTarget(farm);
+    setForm({ name: farm.name, location: farm.location, capacity_kw: String(farm.capacity_kw), status: farm.status });
+    setOpen(true);
+  }
+
+  async function handleSave() {
+    try {
+      if (editTarget) {
+        const updated = await electra.updateFarm(editTarget.id, {
+          name: form.name,
+          location: form.location,
+          capacity_kw: parseFloat(form.capacity_kw),
+          status: form.status,
+        });
+        setFarms((prev) => prev.map((f) => (f.id === editTarget.id ? updated : f)));
+        setSnack({ msg: "Windpark aktualisiert.", severity: "success" });
+      } else {
+        const farm = await electra.createFarm({ name: form.name, location: form.location, capacity_kw: parseFloat(form.capacity_kw) });
+        setFarms((prev) => [...prev, farm]);
+        setSnack({ msg: "Windpark erstellt.", severity: "success" });
+      }
+      const s = await electra.summary();
+      setSummary(s);
+      setOpen(false);
+      setForm(EMPTY_FORM);
+    } catch {
+      setSnack({ msg: "Fehler beim Speichern.", severity: "error" });
+    }
   }
 
   async function handleDelete(id: number) {
-    await electra.deleteFarm(id);
-    setFarms((prev) => prev.filter((f) => f.id !== id));
-    const s = await electra.summary();
-    setSummary(s);
+    try {
+      await electra.deleteFarm(id);
+      setFarms((prev) => prev.filter((f) => f.id !== id));
+      const s = await electra.summary();
+      setSummary(s);
+      setSnack({ msg: "Windpark gelöscht.", severity: "success" });
+    } catch {
+      setSnack({ msg: "Fehler beim Löschen.", severity: "error" });
+    }
   }
 
   return (
@@ -84,6 +121,7 @@ export default function ElectraPage() {
                 { label: "Aktive Windparks", value: summary.active_farms },
                 { label: "Kapazität (kW)", value: summary.total_capacity_kw.toLocaleString("de-DE") },
                 { label: "Produktion (kWh)", value: summary.total_production_kwh.toLocaleString("de-DE") },
+                { label: "Aktive Verträge", value: summary.active_contracts },
                 { label: "Geschätzter Umsatz", value: summary.estimated_revenue_eur.toLocaleString("de-DE") + " €" },
               ].map((s) => (
                 <Grid size={{ xs: 6, md: 4, lg: 2 }} key={s.label}>
@@ -98,7 +136,7 @@ export default function ElectraPage() {
 
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
             <Typography variant="h6">Windparks</Typography>
-            <Button startIcon={<AddIcon />} variant="contained" onClick={() => setOpen(true)}>
+            <Button startIcon={<AddIcon />} variant="contained" onClick={openCreate}>
               Neuer Windpark
             </Button>
           </Box>
@@ -123,6 +161,9 @@ export default function ElectraPage() {
                     <Chip label={f.status} color={STATUS_COLOR[f.status] ?? "default"} size="small" />
                   </TableCell>
                   <TableCell align="right">
+                    <IconButton size="small" color="primary" onClick={() => openEdit(f)}>
+                      <EditIcon fontSize="small" />
+                    </IconButton>
                     <IconButton size="small" color="error" onClick={() => handleDelete(f.id)}>
                       <DeleteIcon fontSize="small" />
                     </IconButton>
@@ -138,17 +179,31 @@ export default function ElectraPage() {
       )}
 
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>Neuer Windpark</DialogTitle>
+        <DialogTitle>{editTarget ? "Windpark bearbeiten" : "Neuer Windpark"}</DialogTitle>
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "16px !important" }}>
           <TextField label="Name" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} fullWidth />
           <TextField label="Standort" value={form.location} onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))} fullWidth />
           <TextField label="Kapazität (kW)" type="number" value={form.capacity_kw} onChange={(e) => setForm((p) => ({ ...p, capacity_kw: e.target.value }))} fullWidth />
+          {editTarget && (
+            <TextField select label="Status" value={form.status} onChange={(e) => setForm((p) => ({ ...p, status: e.target.value }))} fullWidth>
+              {["active", "maintenance", "offline"].map((s) => (
+                <MenuItem key={s} value={s}>{s}</MenuItem>
+              ))}
+            </TextField>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Abbrechen</Button>
-          <Button variant="contained" onClick={handleCreate}>Erstellen</Button>
+          <Button variant="contained" onClick={handleSave}>{editTarget ? "Speichern" : "Erstellen"}</Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={Boolean(snack)} autoHideDuration={4000} onClose={() => setSnack(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+        <Alert severity={snack?.severity} onClose={() => setSnack(null)} sx={{ width: "100%" }}>
+          {snack?.msg}
+        </Alert>
+      </Snackbar>
     </AppShell>
   );
 }
