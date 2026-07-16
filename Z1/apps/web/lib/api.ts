@@ -149,11 +149,20 @@ export interface Transaction {
   created_at: string;
 }
 
+export interface FortunaMonthlyBreakdown {
+  year: number;
+  month: number;
+  income: number;
+  expenses: number;
+  profit: number;
+}
+
 export interface FortunaSummary {
   total_income: number;
   total_expenses: number;
   net_profit: number;
   transaction_count: number;
+  monthly: FortunaMonthlyBreakdown[];
 }
 
 export const fortuna = {
