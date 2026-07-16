@@ -262,6 +262,37 @@ def test_astraea_backups() -> None:
         assert summary["total_backups"] >= 1
 
 
+def test_astraea_audit_logs() -> None:
+    with TestClient(app) as client:
+        headers = _auth(client)
+
+        payload = {
+            "user": "test_user",
+            "action": "create",
+            "resource": "property",
+            "resource_id": "123",
+            "details": "Created property test_user",
+            "ip_address": "127.0.0.1",
+            "success": True
+        }
+        r = client.post("/astraea/audit-logs", json=payload, headers=headers)
+        assert r.status_code == 201
+        data = r.json()
+        assert data["user"] == "test_user"
+        assert data["action"] == "create"
+        assert data["resource"] == "property"
+        assert data["resource_id"] == "123"
+        assert data["details"] == "Created property test_user"
+        assert data["ip_address"] == "127.0.0.1"
+        assert data["success"] is True
+        assert "id" in data
+        assert "timestamp" in data
+
+        logs = client.get("/astraea/audit-logs", headers=headers).json()
+        assert len(logs) >= 1
+        assert any(log["id"] == data["id"] for log in logs)
+
+
 # ---------------------------------------------------------------------------
 # Zoe
 # ---------------------------------------------------------------------------
