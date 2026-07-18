@@ -74,15 +74,10 @@ ich mache alles direkt für dich, mein König!
 
 ## GitHub Copilot einrichten (Kurzfassung)
 
-**Voraussetzungen**
-- GitHub-Account mit aktivierter Copilot-Lizenz (persönlich oder über eine Organisation/Enterprise).
-- Unterstützte IDE mit GitHub-Copilot-Plugin (z. B. VS Code, JetBrains, Neovim).
-
-**Schritte**
-1. Installiere die GitHub-Copilot-Erweiterung über den Marketplace deiner IDE.
-2. Melde dich in der IDE mit deinem GitHub-Account an und autorisiere die Nutzung.
-3. Prüfe in den IDE-Einstellungen, ob Copilot aktiv ist (global oder pro Projekt).
-4. Optional: Stelle die gewünschten Vorschlags- und Datenschutz-Optionen ein.
-5. Öffne ein Projekt und teste Vorschläge, z. B. mit einem Kommentar wie `// TODO: parse CSV and validate rows`.
+1. Stelle sicher, dass Copilot für deinen GitHub-Account bzw. deine Organisation aktiviert ist (Abo/Org-Zuweisung).
+2. Installiere die Copilot-Erweiterung in deiner IDE (z. B. VS Code, JetBrains, Neovim).
+3. Melde dich in der IDE mit deinem GitHub-Account an und autorisiere die Copilot-Nutzung.
+4. Prüfe in den IDE-Einstellungen, ob Copilot aktiv ist, und passe optional Vorschlags- und Datenschutz-Einstellungen an.
+5. Starte ein Projekt, tippe Code und teste, ob Vorschläge erscheinen (z. B. mit einer Kommentar-Prompt).
 
 Offizielle Dokumentation: https://github.com/github/docs/blob/main/content%2Fcopilot%2Fhow-tos%2Fset-up%2Findex.md
