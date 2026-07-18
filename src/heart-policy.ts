@@ -94,3 +94,4 @@ export function verifyHeartPolicy(
 
   return verifier.verify(publicKey, signatureBlock.signature, "base64");
 }
+
