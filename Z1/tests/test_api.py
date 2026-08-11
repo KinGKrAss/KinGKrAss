@@ -2,8 +2,9 @@ import os
 
 from fastapi.testclient import TestClient
 
-os.environ.setdefault("SECRET_KEY", "test-secret-key")
-os.environ.setdefault("Z1_BOOTSTRAP_ADMIN_PASSWORD", "admin")
+os.environ["SECRET_KEY"] = "test-secret-key"
+os.environ["DATABASE_URL"] = "sqlite+pysqlite:///./z1_test.db"
+os.environ["Z1_BOOTSTRAP_ADMIN_PASSWORD"] = "admin"
 
 from backend.main import app
 
