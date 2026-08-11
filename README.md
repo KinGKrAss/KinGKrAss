@@ -81,3 +81,15 @@ ich mache alles direkt für dich, mein König!
 5. Starte ein Projekt, tippe Code und teste, ob Vorschläge erscheinen (z. B. mit einer Kommentar-Prompt).
 
 Offizielle Dokumentation: https://github.com/github/docs/blob/main/content%2Fcopilot%2Fhow-tos%2Fset-up%2Findex.md
+
+---
+
+## Zoë AI Platform Foundation
+
+Für die nächste Ausbaustufe des Repositories wurden ein verbindlicher Architektur-Blueprint und ein erstes PostgreSQL-Schema ergänzt:
+
+- Architektur: `/home/runner/work/KinGKrAss/KinGKrAss/docs/architecture/zoe-platform-blueprint-v1.md`
+- Datenmodell: `/home/runner/work/KinGKrAss/KinGKrAss/docs/database/zoe-memory-model-v1.md`
+- SQL-Schema: `/home/runner/work/KinGKrAss/KinGKrAss/database/schema/zoe_core_v1.sql`
+
+Diese Artefakte definieren die Trennung von ZOE-CORE, ZOE-MEMORY, ZOE-TOOLS, Integrationen und Audit als verbindliche Grundlage für Backend, Datenbank und spätere Service-Implementierungen.
