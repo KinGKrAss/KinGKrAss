@@ -88,8 +88,8 @@ Offizielle Dokumentation: https://github.com/github/docs/blob/main/content%2Fcop
 
 Für die nächste Ausbaustufe des Repositories wurden ein verbindlicher Architektur-Blueprint und ein erstes PostgreSQL-Schema ergänzt:
 
-- Architektur: `/home/runner/work/KinGKrAss/KinGKrAss/docs/architecture/zoe-platform-blueprint-v1.md`
-- Datenmodell: `/home/runner/work/KinGKrAss/KinGKrAss/docs/database/zoe-memory-model-v1.md`
-- SQL-Schema: `/home/runner/work/KinGKrAss/KinGKrAss/database/schema/zoe_core_v1.sql`
+- Architektur: [`docs/architecture/zoe-platform-blueprint-v1.md`](docs/architecture/zoe-platform-blueprint-v1.md)
+- Datenmodell: [`docs/database/zoe-memory-model-v1.md`](docs/database/zoe-memory-model-v1.md)
+- SQL-Schema: [`database/schema/zoe_core_v1.sql`](database/schema/zoe_core_v1.sql)
 
 Diese Artefakte definieren die Trennung von ZOE-CORE, ZOE-MEMORY, ZOE-TOOLS, Integrationen und Audit als verbindliche Grundlage für Backend, Datenbank und spätere Service-Implementierungen.

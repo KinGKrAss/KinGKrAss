@@ -79,7 +79,7 @@ Die Zugriffsstufen lauten:
 
 ## Audit
 
-`audit_log` ist bewusst unabhängig von Memory und Knowledge modelliert. Dadurch bleibt nachvollziehbar:
+`audit_log` ist bewusst unabhängig von Memory und Knowledge modelliert und ohne `zoe_`-Präfix benannt, weil es systemweit als gemeinsamer Revisionsstrom dienen soll. Dadurch bleibt nachvollziehbar:
 
 - wer gehandelt hat
 - auf welches Zielobjekt zugegriffen wurde
