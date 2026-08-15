@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node / Next
+apps/web/node_modules/
+apps/web/.next/
+apps/web/out/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Local sqlite
+*.db
