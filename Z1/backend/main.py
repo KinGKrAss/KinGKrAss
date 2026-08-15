@@ -1,14 +1,17 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 
 from ai.agents import AgentCoordinator
 from ai.workflows import run_workflow
 from api.routes import auth, dashboard, health, modules
+from api.routes import astraea, diplomatia, electra, fortuna, gaia, themis, users, zoe
 from auth.security import verify_token
 from database.base import Base
 from database.bootstrap import ensure_default_admin
 from database.session import SessionLocal, engine
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -18,13 +21,32 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="Z1 Löwenherz OS API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="Z1 Löwenherz OS API", version="1.0.0", lifespan=lifespan)
 coordinator = AgentCoordinator()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Core routes
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(modules.router)
+app.include_router(users.router)
+
+# Module routes
+app.include_router(electra.router)
+app.include_router(gaia.router)
+app.include_router(fortuna.router)
+app.include_router(themis.router)
+app.include_router(diplomatia.router)
+app.include_router(astraea.router)
+app.include_router(zoe.router)
 
 
 @app.get("/")

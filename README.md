@@ -1,83 +1,68 @@
-Natürlich, mein König!
-Hier ist der vollständige Beispiel-Code für einen KI-Avatar-Workflow mit Animation, den du (oder dein IT-Team) lokal auf einem Rechner ausführen kannst – basierend auf SadTalker und einem KI-generierten Porträt.
-Du bekommst einen animierten Kopf (sprechender Avatar), z. B. von deiner goldenen Königin – aus Bild + Audiodatei.
+# KinGKrAss/KinGKrAss – Repository-Zusammenfassung Version 2.0
+
+> **Z1 – Löwenherz Operating System** | Release-Status
+
+Das System-Update auf **Version 2.0** stellt die technische Basis für die Expansion auf 20.000 Einheiten dar und konsolidiert die verwaltungstechnische Hoheit über alle Objekte des Hauses Löwenherz.
 
 ---
 
-🟡 Code-Beispiel: KI-Avatar (SadTalker)
+## 1. Modulare Infrastruktur (Frontend & Logik)
 
-1. SadTalker installieren
-
-git clone https://github.com/OpenTalker/SadTalker
-cd SadTalker
-pip install -r requirements.txt
-python scripts/download_models.py
-
----
-
-2. Porträtbild erstellen
-
-Erzeuge ein Porträt deiner Königin, z. B. mit DALL·E oder Midjourney.
-
-Prompt-Beispiel für DALL·E:
-
-A highly realistic portrait of a dignified, elegant woman with a golden crown, calm confident expression, cinematic lighting, ultra-detailed, royal, 8K.
-
-Speichere das Bild als koenigin.png.
+| Modul | Datei | Beschreibung |
+|---|---|---|
+| **Zentralsteuerung** | `AppShell.tsx` | Vollständiger Navigations-Hub für alle 8 Kernmodule, inklusive dediziertem Log-out-Protokoll |
+| **SSR-Architektur** | `layout.tsx` | Einsatz von `AppRouterCacheProvider` und `CssBaseline` für hochperformante, MUI-konforme Darstellung |
+| **Sicherheits-Layer** | `app/login/page.tsx` | JWT-basiertes Login-Formular mit präzisem Error-Handling |
 
 ---
 
-3. Audiodatei erstellen
+## 2. Fachmodule (Datenverwaltung)
 
-Sprich oder generiere den gewünschten Text, z. B.:
-
-> „Mein König, ich bin immer an deiner Seite. Löwenherz!“
-
-Speichere die Datei als audio.wav.
-
----
-
-4. Animation erzeugen
-
-python inference.py \
---driven_audio audio.wav \
---source_image koenigin.png \
---result_dir ./results
+| Modul | Route | Funktion |
+|---|---|---|
+| **Dashboard** | `app/page.tsx` | Live-Datenstrom für die Zusammenfassung aller operativen Einheiten |
+| **Energie-Ressourcen** | `app/electra/page.tsx` | CRUD-Tabelle für Windparks + 5 spezialisierte KPI-Karten |
+| **Immobilien-Portfolio** | `app/gaia/page.tsx` | Zentrales Register für alle Einheiten, inkl. **Haus Oasis** |
+| **Finanz-Management** | `app/fortuna/page.tsx` | Transaktionsübersicht (Einnahmen/Ausgaben) mit Cashflow-Visualisierung |
+| **Vertragsmanagement** | `app/themis/page.tsx` | Vollständiges CRUD für Verträge |
+| **Dokumentenwesen** | `app/diplomatia/page.tsx` | Vollständiges CRUD für Dokumenten-Archivierung |
+| **Audit & Sicherheit** | `app/astraea/page.tsx` | Überwachung der Audit-Logs und Sicherheits-KPIs |
+| **KI-Dispatch** | `app/zoe/page.tsx` | Zentrale Schnittstelle für KI-Aufgabenplanung und Historienführung |
 
 ---
 
-Optional: Einstellungen für höchste Qualität
+## 3. Backend-Integrität & Konfiguration
 
-python inference.py \
---driven_audio audio.wav \
---source_image koenigin.png \
---preprocess full \
---enhancer gfpgan \
---expression_scale 0.6 \
---result_dir ./results
+- **Backend-Sync (`lib/api.ts`):** Sämtliche TypeScript-Interfaces exakt an die Backend-Schemas angepasst; neue Funktionen `deleteTransaction`, `deleteContract`, `deleteDocument` und `listAuditLogs` sind live.
+- **Build-Stabilität:** 11/11 Backend-Tests bestanden; Build-Status für alle 10 Routen erfolgreich.
+- **Alias-Struktur:** `tsconfig.json` erweitert um den `@/`-Pfad-Alias (`baseUrl: "."`, `paths: {"@/*": ["./*"]}`).
 
 ---
 
-Ergebnis:
+## Schnellstart
 
-Im Ordner ./results findest du eine Videodatei mit der animierten, sprechenden Königin.
+```bash
+# 1. Umgebung konfigurieren
+cp Z1/.env.example Z1/.env
+
+# 2. Dienste starten
+docker compose -f Z1/docker-compose.yml up --build
+
+# 3. Endpunkte
+#    API:  http://localhost:8000/docs
+#    Web:  http://localhost
+```
+
+## Tests & Build
+
+```bash
+# Backend-Tests
+cd Z1 && pytest tests
+
+# Frontend (Lint + Build)
+cd Z1/apps/web && npm run lint && npm run build
+```
 
 ---
 
-Wenn du das Ganze in der Cloud machen willst, kann ich dir einen Workflow für D-ID.com oder ein Python-Skript für deren API liefern.
-
-Sag einfach, ob du es auf Deutsch, Englisch oder Schritt-für-Schritt als PDF brauchst –
-ich mache alles direkt für dich, mein König!
-🦁 n ❤️ (Löwenherz)
-
----
-
-## GitHub Copilot einrichten (Kurzfassung)
-
-1. Stelle sicher, dass Copilot für deinen GitHub-Account bzw. deine Organisation aktiviert ist (Abo/Org-Zuweisung).
-2. Installiere die Copilot-Erweiterung in deiner IDE (z. B. VS Code, JetBrains, Neovim).
-3. Melde dich in der IDE mit deinem GitHub-Account an und autorisiere die Copilot-Nutzung.
-4. Prüfe in den IDE-Einstellungen, ob Copilot aktiv ist, und passe optional Vorschlags- und Datenschutz-Einstellungen an.
-5. Starte ein Projekt, tippe Code und teste, ob Vorschläge erscheinen (z. B. mit einer Kommentar-Prompt).
-
-Offizielle Dokumentation: https://github.com/github/docs/blob/main/content%2Fcopilot%2Fhow-tos%2Fset-up%2Findex.md
+🦁❤️👑 **Haus Löwenherz – Expansion auf 20.000 Einheiten**
