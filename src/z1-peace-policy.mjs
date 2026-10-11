@@ -123,6 +123,5 @@ export function evaluateZ1PeacePolicy(request) {
     matchedRules: [],
     reason:
       "Anfrage nicht automatisch freigegeben: vor einer Aktivierung ist eine menschliche Prüfung gegen die Friedensrichtlinie erforderlich.",
-    };
   };
 }
