@@ -81,3 +81,32 @@ ich mache alles direkt für dich, mein König!
 5. Starte ein Projekt, tippe Code und teste, ob Vorschläge erscheinen (z. B. mit einer Kommentar-Prompt).
 
 Offizielle Dokumentation: https://github.com/github/docs/blob/main/content%2Fcopilot%2Fhow-tos%2Fset-up%2Findex.md
+
+---
+
+## Z1-PEACE-001 – Humanitäre Friedensrichtlinie
+
+Dieses Repository enthält jetzt das vorbereitete Modul `src/z1-peace-policy.mjs`.
+
+### Zweck
+
+- blockiert Waffensteuerung im Z1-System
+- blockiert die Planung von Angriffen
+- blockiert automatisierte Entscheidungen über menschliches Leben
+- erlaubt Friedensvermittlung, zivilen Bevölkerungsschutz, Bildung und humanitäre Hilfe
+
+### Tests
+
+Die drei Modultests liegen in `tests/z1-peace-policy.test.mjs` und können mit Node.js ausgeführt werden:
+
+```bash
+node --test tests/z1-peace-policy.test.mjs
+```
+
+### Einbau in Z1
+
+1. Das Modul vor jeder operativen Z1-Aktion importieren.
+2. `evaluateZ1PeacePolicy(...)` auf eingehende Aufgaben anwenden.
+3. Nur Ergebnisse mit `classification === "allowed"` automatisch ausführen.
+4. Ergebnisse mit `classification === "prohibited"` hart blockieren und protokollieren.
+5. Ergebnisse mit `classification === "review"` einer menschlichen Freigabe zuführen.
